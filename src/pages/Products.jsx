@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navar";
 
 function Productos() {
   const { data, isLoading, error } = useProducts();
@@ -29,7 +30,7 @@ function Productos() {
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Menú de Productos</h1>
-
+        <Navbar />
         <Link
           to="/carrito"
           className="bg-white px-4 py-2 rounded-lg shadow hover:bg-gray-100 transition"

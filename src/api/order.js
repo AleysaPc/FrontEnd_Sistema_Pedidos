@@ -9,3 +9,6 @@ export const DetalleOrdersApi = createCrudOperations(ApiDettalleOrder, "detalleo
 
 const ApiHistorialOrder = createApi("ordenes"); //url principal
 export const HistorialOrdersApi = createCrudOperations(ApiHistorialOrder, "historialordenes"); //url de la app
+
+const ApiNotificaciones = createApi("notificaciones"); //url principal
+export const NotificacionesApi = createCrudOperations(ApiNotificaciones, "notificaciones"); //url de la app

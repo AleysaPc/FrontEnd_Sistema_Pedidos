@@ -4,6 +4,8 @@ import { ProductsApi } from "../api/restaurant.api";
 import { OrdersApi, DetalleOrdersApi, HistorialOrdersApi } from "../api/order";
 import { useEntityMutations } from "./useEntityMutations";
 import  useData  from "./useData";
+import { useQuery } from "@tanstack/react-query";
+import { NotificacionesApi } from "../api/order";
 
 /////////////////////
 //USUARIOS
@@ -169,6 +171,9 @@ export const useHistorialOrder = (id) =>
 export const useHistorialOrderMutations = () => useEntityMutations(HistorialOrdersApi, "HistorialOrden");
 
 
-
-
-
+export const useNotificaciones = () => {
+  return useQuery({
+    queryKey: ["notificaciones"],
+    queryFn: () => NotificacionesApi.getAll(),
+  });
+};

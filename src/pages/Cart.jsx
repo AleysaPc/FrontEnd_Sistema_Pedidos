@@ -42,7 +42,7 @@ function Cart() {
       for (const item of carrito) {
         await DetalleOrdersApi.create({
           orden: ordenId,
-          producto: item.id,
+          producto_id: item.id,
           cantidad: item.cantidad,
           precio: item.precio,
         });
