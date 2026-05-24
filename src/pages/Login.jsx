@@ -34,7 +34,7 @@ function Login() {
         formData.password,
       );
 
-      navigate("/dashboard");
+      navigate("/productos");
     } catch (error) {
       console.log(error);
 

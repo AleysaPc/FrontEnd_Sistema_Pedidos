@@ -1,6 +1,5 @@
-import { createApiInstance } from "./api.Base";
 import { createCrudOperations } from "./api.crud";
-
+import { createApi } from "./api.confing";
 
 const ApiUsers = createApi("usuarios");
 

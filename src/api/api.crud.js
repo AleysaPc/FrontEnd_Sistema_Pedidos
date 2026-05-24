@@ -13,7 +13,7 @@ export const createCrudOperations = (apiInstance, resource) => ({
   // ✅ Crear un nuevo recurso
   create: (data) => request(apiInstance, "post", `${resource}/`, data),
   // ✅ Actualizar un recurso
-  update: (id, data) => request(apiInstance, "put", `${resource}/${id}/`, data),
+  update: (id, data) => request(apiInstance, "patch", `${resource}/${id}/`, data),
   // ✅ Eliminar un recurso
   delete: (id) => request(apiInstance, "delete", `${resource}/${id}/`),
 });
