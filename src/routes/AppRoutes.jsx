@@ -5,6 +5,8 @@ import Productos from "../pages/Products";
 import OrderDetail from "../pages/OderDetail";
 import Cart from "../pages/Cart";
 import RestaurantePanel from "../pages/RestaurantDashboard";
+import RepartidorPanel from "../pages/RepartidorPanel";
+import RepartidorOrderDetail from "../pages/RepartidorOrderDetail";
 import OrderDetailRestaurante from "../pages/OrderDetailRestaurant";
 function AppRoutes() {
   return (
@@ -25,7 +27,10 @@ function AppRoutes() {
           path="/panelRestaurante/:id"
           element={<OrderDetailRestaurante />}
         />
+        <Route path="/repartidor" element={<RepartidorPanel /> } />
+        <Route path="/repartidor/pedido/:id" element={<RepartidorOrderDetail />} />
       </Routes>
+        
     </BrowserRouter>
   );
 }
