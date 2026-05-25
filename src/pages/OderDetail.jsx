@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useOrder } from "../hooks/useEntities";
 import { OrdersApi } from "../api/order";
 
 function OrderDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data: order, isLoading, isError } = useOrder(id);
 
@@ -24,10 +25,13 @@ function OrderDetail() {
         });
 
         alert("Pago en efectivo confirmado");
+
+        // 🔥 REDIRECCIÓN
+        navigate("/productos", { replace: true });
         return;
       }
 
-      // 📱 QR → solo abre modal + deja pendiente
+      // 📱 QR → abrir modal + marcar pendiente
       if (tipo === "QR") {
         setMetodoPago("QR");
         setShowModal(true);
@@ -53,6 +57,9 @@ function OrderDetail() {
 
       setShowModal(false);
       alert("Pago QR confirmado");
+
+      // 🔥 REDIRECCIÓN
+      navigate("/productos", { replace: true });
     } catch (error) {
       console.log(error);
     }

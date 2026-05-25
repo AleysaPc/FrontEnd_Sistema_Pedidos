@@ -30,7 +30,7 @@ function Cart() {
         total: total,
         metodo_pago: "EFECTIVO",
         ESTADOS_PAGO: "PENDIENTE",
-        cliente: user.user_id,
+        cliente: user.id,
         restaurante: restauranteId,
       });
 
