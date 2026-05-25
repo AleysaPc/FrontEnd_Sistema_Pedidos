@@ -27,21 +27,26 @@ function Login() {
 
       const res = await login(formData.email, formData.password);
 
-      // 🔥 GUARDAR TOKEN Y USER
+      console.log("LOGIN RESPONSE:", res);
+
+      if (!res?.user) {
+        throw new Error("Respuesta inválida del servidor");
+      }
+
+      // guardar datos
       localStorage.setItem("token", res.token);
       localStorage.setItem("user", JSON.stringify(res.user));
 
-      // 🔥 REDIRECCIÓN SEGÚN ROL
-      if (res.user.rol === "CLIENT") navigate("/productos");
-      if (res.user.rol === "REPARTIDOR") navigate("/repartidor");
-      if (res.user.rol === "ADMIN_RESTAURANT") navigate("/productos");
+      const rol = res.user.rol;
 
+      if (rol === "CLIENT") navigate("/productos");
+      if (rol === "REPARTIDOR") navigate("/repartidor");
+      if (rol === "ADMIN_RESTAURANT") navigate("/panelRestaurante");
     } catch (error) {
       console.log(error);
       setError("Credenciales incorrectas");
     }
   };
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-blue-700 via-blue-600 to-emerald-500 px-4">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-8">

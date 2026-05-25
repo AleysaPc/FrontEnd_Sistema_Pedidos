@@ -2,7 +2,9 @@ import { useOrders } from "../hooks/useEntities";
 import { OrdersApi } from "../api/order";
 
 function RepartidorOrderDetail() {
-  const { data: orders, isLoading } = useOrders();
+  const { data: orders, isLoading } = useOrders({
+    refetchInterval: 3000, // 🔥 polling
+  });
 
   const cambiarEstado = async (id, estado) => {
     await OrdersApi.update(id, { estado });
@@ -20,7 +22,6 @@ function RepartidorOrderDetail() {
       </p>
 
       <div className="flex flex-col gap-1 mt-2">
-
         {order.estado === "LISTO" && (
           <button
             onClick={() => cambiarEstado(order.id, "EN_CAMINO")}
@@ -38,7 +39,6 @@ function RepartidorOrderDetail() {
             Marcar entregado
           </button>
         )}
-
       </div>
     </div>
   );
@@ -56,51 +56,26 @@ function RepartidorOrderDetail() {
             🛵 Panel del Repartidor
           </h1>
 
-          <p className="text-gray-500 mt-2">
-            Gestiona las entregas y pedidos en ruta
-          </p>
+      <div className="grid grid-cols-3 gap-4">
+        <div>
+          <h2 className="font-bold text-blue-500 mb-2">
+            LISTOS PARA RECOGER
+          </h2>
+          {disponibles?.map(renderPedido)}
         </div>
 
-        {/* COLUMNAS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {/* LISTOS */}
-          <div className="bg-white rounded-3xl shadow-xl border border-blue-100 overflow-hidden">
-            <div className="bg-linear-to-r from-blue-500 to-blue-700 p-4">
-              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
-                📦 LISTOS PARA RECOGER
-              </h2>
-            </div>
+        <div>
+          <h2 className="font-bold text-yellow-500 mb-2">
+            EN CAMINO
+          </h2>
+          {enCamino?.map(renderPedido)}
+        </div>
 
-            <div className="p-4 space-y-4 min-h-[550px] bg-blue-50/40">
-              {disponibles?.map(renderPedido)}
-            </div>
-          </div>
-
-          {/* EN CAMINO */}
-          <div className="bg-white rounded-3xl shadow-xl border border-yellow-100 overflow-hidden">
-            <div className="bg-linear-to-r from-yellow-400 to-yellow-500 p-4">
-              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
-                🚚 EN CAMINO
-              </h2>
-            </div>
-
-            <div className="p-4 space-y-4 min-h-[550px] bg-yellow-50/40">
-              {enCamino?.map(renderPedido)}
-            </div>
-          </div>
-
-          {/* ENTREGADOS */}
-          <div className="bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden">
-            <div className="bg-linear-to-r from-emerald-500 to-green-600 p-4">
-              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
-                ✅ ENTREGADOS
-              </h2>
-            </div>
-
-            <div className="p-4 space-y-4 min-h-[550px] bg-emerald-50/40">
-              {entregados?.map(renderPedido)}
-            </div>
-          </div>
+        <div>
+          <h2 className="font-bold text-green-500 mb-2">
+            ENTREGADOS
+          </h2>
+          {entregados?.map(renderPedido)}
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ function OrderDetail() {
         alert("Pago en efectivo confirmado");
 
         // 🔥 REDIRECCIÓN
-        navigate("/productos", { replace: true });
+        navigate(`/historial?orden_id=${order?.numero_orden}`, { replace: true });
         return;
       }
 
@@ -59,7 +59,7 @@ function OrderDetail() {
       alert("Pago QR confirmado");
 
       // 🔥 REDIRECCIÓN
-      navigate("/productos", { replace: true });
+      navigate(`/historial?orden_id=${order?.numero_orden}`, { replace: true });
     } catch (error) {
       console.log(error);
     }

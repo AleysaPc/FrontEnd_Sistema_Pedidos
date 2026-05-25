@@ -2,7 +2,10 @@ import { useOrders } from "../hooks/useEntities";
 import { OrdersApi } from "../api/order";
 
 function OrderDetailRestaurant() {
-  const { data: orders, isLoading } = useOrders();
+  const { data: orders, isLoading } = useOrders({
+    refetchInterval: 3000, // 🔥 polling cada 3 segundos
+    refetchIntervalInBackground: true,
+  });
 
   const cambiarEstado = async (id, estado) => {
     await OrdersApi.update(id, { estado });
