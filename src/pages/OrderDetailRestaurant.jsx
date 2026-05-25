@@ -51,51 +51,79 @@ function OrderDetailRestaurant() {
     </div>
   );
 
-  const pendientes = orders?.filter(o => o.estado === "PENDIENTE");
-  const aceptados = orders?.filter(o => o.estado === "ACEPTADO");
-  const preparando = orders?.filter(o => o.estado === "PREPARANDO");
-  const listos = orders?.filter(o => o.estado === "LISTO");
+  const pendientes = orders?.filter((o) => o.estado === "PENDIENTE");
+  const aceptados = orders?.filter((o) => o.estado === "ACEPTADO");
+  const preparando = orders?.filter((o) => o.estado === "PREPARANDO");
+  const listos = orders?.filter((o) => o.estado === "LISTO");
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">
-        Panel del Restaurante
-      </h1>
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* HEADER */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-700 to-emerald-500 bg-clip-text text-transparent">
+            🍽 Panel del Restaurante
+          </h1>
 
-      <div className="grid grid-cols-4 gap-4">
-
-        {/* PENDIENTE */}
-        <div>
-          <h2 className="font-bold text-red-500 mb-2">
-            PENDIENTE
-          </h2>
-          {pendientes?.map(renderPedido)}
+          <p className="text-gray-500 mt-2">
+            Gestiona los pedidos en tiempo real
+          </p>
         </div>
 
-        {/* ACEPTADO */}
-        <div>
-          <h2 className="font-bold text-blue-500 mb-2">
-            ACEPTADO
-          </h2>
-          {aceptados?.map(renderPedido)}
-        </div>
+        {/* COLUMNAS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          {/* PENDIENTE */}
+          <div className="bg-white rounded-3xl shadow-xl border border-red-100 overflow-hidden">
+            <div className="bg-linear-to-r from-red-500 to-red-600 p-4">
+              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
+                🔴 PENDIENTE
+              </h2>
+            </div>
 
-        {/* PREPARANDO */}
-        <div>
-          <h2 className="font-bold text-yellow-500 mb-2">
-            PREPARANDO
-          </h2>
-          {preparando?.map(renderPedido)}
-        </div>
+            <div className="p-4 space-y-4 min-h-[500px] bg-red-50/40">
+              {pendientes?.map(renderPedido)}
+            </div>
+          </div>
 
-        {/* LISTO */}
-        <div>
-          <h2 className="font-bold text-green-500 mb-2">
-            LISTO
-          </h2>
-          {listos?.map(renderPedido)}
-        </div>
+          {/* ACEPTADO */}
+          <div className="bg-white rounded-3xl shadow-xl border border-blue-100 overflow-hidden">
+            <div className="bg-linear-to-r from-blue-500 to-blue-700 p-4">
+              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
+                🔵 ACEPTADO
+              </h2>
+            </div>
 
+            <div className="p-4 space-y-4 min-h-[500px] bg-blue-50/40">
+              {aceptados?.map(renderPedido)}
+            </div>
+          </div>
+
+          {/* PREPARANDO */}
+          <div className="bg-white rounded-3xl shadow-xl border border-yellow-100 overflow-hidden">
+            <div className="bg-linear-to-r from-yellow-400 to-yellow-500 p-4">
+              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
+                🟡 PREPARANDO
+              </h2>
+            </div>
+
+            <div className="p-4 space-y-4 min-h-[500px] bg-yellow-50/40">
+              {preparando?.map(renderPedido)}
+            </div>
+          </div>
+
+          {/* LISTO */}
+          <div className="bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden">
+            <div className="bg-linear-to-r from-emerald-500 to-green-600 p-4">
+              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
+                🟢 LISTO
+              </h2>
+            </div>
+
+            <div className="p-4 space-y-4 min-h-[500px] bg-emerald-50/40">
+              {listos?.map(renderPedido)}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
