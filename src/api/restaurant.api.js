@@ -1,5 +1,5 @@
 import { createCrudOperations } from "./api.crud";
-import { createApi } from "./api.confing";
+import { createApi } from "./api.config";
 
 
 //BASE:

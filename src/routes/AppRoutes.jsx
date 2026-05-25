@@ -8,6 +8,7 @@ import RestaurantePanel from "../pages/RestaurantDashboard";
 import RepartidorPanel from "../pages/RepartidorPanel";
 import RepartidorOrderDetail from "../pages/RepartidorOrderDetail";
 import OrderDetailRestaurante from "../pages/OrderDetailRestaurant";
+import HistorialOrden from "../pages/HistorialOrden";
 function AppRoutes() {
   return (
     <BrowserRouter>
@@ -29,7 +30,10 @@ function AppRoutes() {
         />
         <Route path="/repartidor" element={<RepartidorPanel /> } />
         <Route path="/repartidor/pedido/:id" element={<RepartidorOrderDetail />} />
+        
+        <Route path="/historial/" element={<HistorialOrden />} />
       </Routes>
+      
         
     </BrowserRouter>
   );

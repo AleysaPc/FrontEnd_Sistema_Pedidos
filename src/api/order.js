@@ -1,5 +1,5 @@
 import { createCrudOperations } from "./api.crud";
-import { createApi } from "./api.confing";
+import { createApi } from "./api.config";
 
 const ApiOrder = createApi("ordenes"); //url principal
 export const OrdersApi = createCrudOperations(ApiOrder, "ordenes"); //url de la app

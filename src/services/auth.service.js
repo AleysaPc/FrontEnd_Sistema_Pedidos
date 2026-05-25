@@ -1,4 +1,4 @@
-import { createApi } from "../api/api.confing";
+import { createApi } from "../api/api.config"; // OJO: corregido nombre
 
 const ApiUsers = createApi("usuarios");
 
@@ -8,5 +8,5 @@ export const login = async (email, password) => {
     password,
   });
 
-  return response.data;
+  return response.data; // 🔥 IMPORTANTE
 };

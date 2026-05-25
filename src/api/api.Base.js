@@ -16,7 +16,7 @@ const createApiInstance = (baseURL = ApiBaseURL) => {
   apiInstance.interceptors.request.use(
     (config) => {
       // Obtener token guardado
-      const token = localStorage.getItem("access");
+      const token = localStorage.getItem("token");
 
       // Agregar Authorization
       if (token) {
@@ -41,7 +41,7 @@ const createApiInstance = (baseURL = ApiBaseURL) => {
 
     (error) => {
       if (error.response && error.response.status === 401) {
-        localStorage.removeItem("access");
+        localStorage.removeItem("token");
 
         console.error("Sesión expirada.");
       }

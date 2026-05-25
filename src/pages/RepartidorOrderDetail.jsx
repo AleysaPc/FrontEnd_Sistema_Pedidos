@@ -2,7 +2,9 @@ import { useOrders } from "../hooks/useEntities";
 import { OrdersApi } from "../api/order";
 
 function RepartidorOrderDetail() {
-  const { data: orders, isLoading } = useOrders();
+  const { data: orders, isLoading } = useOrders({
+    refetchInterval: 3000, // 🔥 polling
+  });
 
   const cambiarEstado = async (id, estado) => {
     await OrdersApi.update(id, { estado });
@@ -20,7 +22,6 @@ function RepartidorOrderDetail() {
       </p>
 
       <div className="flex flex-col gap-1 mt-2">
-
         {order.estado === "LISTO" && (
           <button
             onClick={() => cambiarEstado(order.id, "EN_CAMINO")}
@@ -38,7 +39,6 @@ function RepartidorOrderDetail() {
             Marcar entregado
           </button>
         )}
-
       </div>
     </div>
   );
@@ -54,8 +54,6 @@ function RepartidorOrderDetail() {
       </h1>
 
       <div className="grid grid-cols-3 gap-4">
-
-        {/* LISTOS */}
         <div>
           <h2 className="font-bold text-blue-500 mb-2">
             LISTOS PARA RECOGER
@@ -63,7 +61,6 @@ function RepartidorOrderDetail() {
           {disponibles?.map(renderPedido)}
         </div>
 
-        {/* EN CAMINO */}
         <div>
           <h2 className="font-bold text-yellow-500 mb-2">
             EN CAMINO
@@ -71,14 +68,12 @@ function RepartidorOrderDetail() {
           {enCamino?.map(renderPedido)}
         </div>
 
-        {/* ENTREGADOS */}
         <div>
           <h2 className="font-bold text-green-500 mb-2">
             ENTREGADOS
           </h2>
           {entregados?.map(renderPedido)}
         </div>
-
       </div>
     </div>
   );
