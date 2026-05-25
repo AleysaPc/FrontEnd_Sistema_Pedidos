@@ -1,14 +1,12 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
-
 import { login } from "../services/auth.service";
 
 function Login() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -17,7 +15,6 @@ function Login() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-
       [e.target.name]: e.target.value,
     });
   };
@@ -28,70 +25,48 @@ function Login() {
     try {
       setError("");
 
-      await login(
-        formData.username,
+      const res = await login(formData.email, formData.password);
 
-        formData.password,
-      );
+      // 🔥 GUARDAR TOKEN Y USER
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
 
-      navigate("/productos");
+      // 🔥 REDIRECCIÓN SEGÚN ROL
+      if (res.user.rol === "CLIENT") navigate("/productos");
+      if (res.user.rol === "REPARTIDOR") navigate("/repartidor");
+      if (res.user.rol === "ADMIN_RESTAURANT") navigate("/productos");
+
     } catch (error) {
       console.log(error);
-
       setError("Credenciales incorrectas");
     }
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-gradient-to-r from-green-700 via-green-600 to-green-500">
-      <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-lg">
-        {/* Logo */}
+    <div className="flex justify-center items-center w-full h-screen bg-green-600">
+      <div className="bg-white p-6 rounded-xl w-96">
+        <h2 className="text-xl font-bold mb-4">Login</h2>
 
-        <div className="flex flex-col items-center mb-6">
-          <img src="/logo.png" alt="Logo" className="h-16 mb-2" />
-
-          <h1 className="text-center text-xl font-bold text-green-700">
-            Sistema de Pedidos
-          </h1>
-        </div>
-
-        <h2 className="text-3xl text-center font-bold text-blue-600 mb-6">
-          Iniciar Sesión
-        </h2>
-
-        {error && (
-          <div className="mb-4 p-3 bg-red-500 text-white rounded-md">
-            {error}
-          </div>
-        )}
+        {error && <p className="text-red-500">{error}</p>}
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <input
-              type="text"
-              name="username"
-              placeholder="Usuario"
-              value={formData.username}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            className="w-full border p-2 mb-3"
+          />
 
-          <div className="mb-6">
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            className="w-full border p-2 mb-3"
+          />
 
-          <button
-            type="submit"
-            className="w-full py-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition"
-          >
+          <button className="bg-blue-500 text-white w-full p-2">
             Ingresar
           </button>
         </form>
