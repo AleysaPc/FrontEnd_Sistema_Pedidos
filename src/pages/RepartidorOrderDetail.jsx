@@ -48,13 +48,15 @@ function RepartidorOrderDetail() {
   const entregados = orders?.filter((o) => o.estado === "ENTREGADO");
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-700 to-emerald-500 bg-clip-text text-transparent">
-            🛵 Panel del Repartidor
-          </h1>
+  <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
+    <div className="max-w-7xl mx-auto">
+
+      {/* HEADER */}
+      <div className="mb-10">
+        <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-700 to-emerald-500 bg-clip-text text-transparent">
+          🛵 Panel del Repartidor
+        </h1>
+      </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div>
@@ -78,8 +80,10 @@ function RepartidorOrderDetail() {
           {entregados?.map(renderPedido)}
         </div>
       </div>
+
     </div>
-  );
+  </div>
+);
 }
 
 export default RepartidorOrderDetail;

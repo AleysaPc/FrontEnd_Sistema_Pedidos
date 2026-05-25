@@ -41,33 +41,24 @@ function Productos() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      
+
+      {/* 🔥 ROL */}
+      <div className="mb-3 text-sm text-gray-600">
+        Rol actual: <b>{rol}</b>
+      </div>
+
       {/* ========================= */}
-      {/* NAVBAR */}
+      {/* HEADER */}
       {/* ========================= */}
-      <div className="flex justify-between items-center mb-8">
-        
-        <div>
-          <h1 className="text-4xl font-bold">
-            Menú de Productos
-          </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold">
+          Menú de Productos
+        </h1>
 
-          {/* 🔥 MOSTRAR ROL */}
-          {rol && (
-            <p className="text-sm text-gray-600">
-              Rol: <span className="font-bold">{rol}</span>
-            </p>
-          )}
-        </div>
+        <Navbar />
 
-          <div className="flex items-center gap-4">
-            <Navbar />
-
-        <Link
-          to="/carrito"
-          className="bg-white px-4 py-2 rounded-lg shadow hover:bg-gray-100 transition"
-        >
-          🛒 {carrito.reduce((acc, item) => acc + item.cantidad, 0)}
+        <Link to="/carrito">
+          🛒 {carrito.reduce((a, i) => a + i.cantidad, 0)}
         </Link>
       </div>
 
@@ -95,7 +86,7 @@ function Productos() {
       {/* ========================= */}
       {/* PRODUCTOS */}
       {/* ========================= */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6">
         {data?.map((producto) => (
           <ProductCard
             key={producto.id}
