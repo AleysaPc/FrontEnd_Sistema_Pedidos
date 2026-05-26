@@ -35,20 +35,15 @@ function Productos() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
-
         {/* HEADER */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
-
           <div>
             <p className="text-sm text-gray-500">
               Rol actual:
-              <span className="ml-1 font-semibold text-emerald-600">
-                {rol}
-              </span>
+              <span className="ml-1 font-semibold text-emerald-600">{rol}</span>
             </p>
 
             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800 mt-1">
@@ -62,7 +57,6 @@ function Productos() {
 
           {/* BUSCADOR */}
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-
             <input
               type="text"
               placeholder="Buscar orden..."
@@ -85,10 +79,10 @@ function Productos() {
         <div className="flex justify-end mb-6">
           <Link
             to="/carrito"
-            className="relative w-12 h-12 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-sm transition-all"
+            className="relative flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-2xl shadow-sm transition-all"
           >
             REALIZAR PEDIDO 🛒
-            <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-emerald-500 text-white text-xs font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
               {carrito.reduce((a, i) => a + i.cantidad, 0)}
             </span>
           </Link>
@@ -104,7 +98,6 @@ function Productos() {
             />
           ))}
         </div>
-
       </main>
     </div>
   );

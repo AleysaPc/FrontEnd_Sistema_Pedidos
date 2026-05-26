@@ -1,8 +1,11 @@
 import { useOrders } from "../hooks/useEntities";
 import OrderCard from "../components/OrderCard";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function RestaurantePanel() {
+  const navigate = useNavigate();
+
   const {
     data: orders,
     isLoading,
@@ -22,14 +25,24 @@ function RestaurantePanel() {
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* HEADER */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
-            🍽 Panel del Restaurante
-          </h1>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">
+              🍽 Panel del Restaurante
+            </h1>
 
-          <p className="text-sm text-gray-500 mt-1">
-            Administra y supervisa todos los pedidos en tiempo real
-          </p>
+            <p className="text-sm text-gray-500 mt-1">
+              Administra y supervisa todos los pedidos en tiempo real
+            </p>
+          </div>
+
+          {/* BOTÓN PRODUCTOS */}
+          <button
+            onClick={() => navigate("/productos")}
+            className="bg-blue-600 text-white px-4 py-2 rounded-xl shadow-sm hover:bg-blue-700 transition"
+          >
+            🍝 Productos
+          </button>
         </div>
 
         {/* LISTA DE PEDIDOS */}
