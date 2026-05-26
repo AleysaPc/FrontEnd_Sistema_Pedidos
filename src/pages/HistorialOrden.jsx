@@ -136,7 +136,7 @@ function Historial() {
             </h1>
 
             <p className="text-sm text-gray-500 mt-1">
-              Historial de movimientos y estados del pedido -
+              Historial de movimientos y estados del pedido
             </p>
           </div>
 
