@@ -1,6 +1,7 @@
 import { useCart } from "../context/CartContext";
 import { OrdersApi, DetalleOrdersApi } from "../api/order";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 function Cart() {
   const { carrito, eliminarProducto, limpiarCarrito, total } = useCart();
@@ -22,9 +23,6 @@ function Cart() {
 
       const restauranteId = carrito[0].restaurante;
 
-      // =========================
-      // CREAR ORDEN
-      // =========================
       const responseOrden = await OrdersApi.create({
         estado: "PENDIENTE",
         total: total,
@@ -36,9 +34,6 @@ function Cart() {
 
       const ordenId = responseOrden.id;
 
-      // =========================
-      // CREAR DETALLES
-      // =========================
       for (const item of carrito) {
         await DetalleOrdersApi.create({
           orden: ordenId,
@@ -48,14 +43,10 @@ function Cart() {
         });
       }
 
-      // Limpiar carrito
       limpiarCarrito();
 
       alert("Pedido realizado con éxito");
 
-      // =========================
-      // REDIRECCIÓN A DETALLE
-      // =========================
       navigate(`/orderDetail/${ordenId}`);
 
     } catch (error) {
@@ -71,8 +62,12 @@ function Cart() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50">
+      <Navbar />
+
+      <div className="max-w-5xl mx-auto p-6">
+
+        {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-700 to-emerald-500 bg-clip-text text-transparent">
             🛒 Carrito de Compras
@@ -83,6 +78,7 @@ function Cart() {
           </p>
         </div>
 
+        {/* PRODUCTOS */}
         <div className="space-y-5">
           {carrito.map((item) => (
             <div
@@ -104,7 +100,9 @@ function Cart() {
 
                   <p className="text-gray-600">
                     Cantidad:
-                    <span className="font-semibold ml-2">{item.cantidad}</span>
+                    <span className="font-semibold ml-2">
+                      {item.cantidad}
+                    </span>
                   </p>
 
                   <p className="font-bold text-emerald-600 text-lg mt-2">
@@ -124,10 +122,14 @@ function Cart() {
           ))}
         </div>
 
+        {/* TOTAL */}
         <div className="mt-10 bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+
             <div>
-              <h2 className="text-3xl font-extrabold text-gray-800">Total:</h2>
+              <h2 className="text-3xl font-extrabold text-gray-800">
+                Total:
+              </h2>
 
               <p className="text-4xl font-black text-emerald-600 mt-2">
                 Bs. {total.toFixed(2)}
@@ -140,8 +142,10 @@ function Cart() {
             >
               Realizar Pedido
             </button>
+
           </div>
         </div>
+
       </div>
     </div>
   );

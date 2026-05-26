@@ -1,5 +1,6 @@
 import { useOrders } from "../hooks/useEntities";
 import { OrdersApi } from "../api/order";
+import Navbar from "../components/Navbar";
 
 function RepartidorOrderDetail() {
   const {
@@ -11,35 +12,46 @@ function RepartidorOrderDetail() {
     refetchIntervalInBackground: true,
   });
 
-  // 🔥 ACTUALIZA Y REFRESCA INMEDIATAMENTE
+  // =========================
+  // CAMBIAR ESTADO + REFRESH
+  // =========================
   const cambiarEstado = async (id, estado) => {
     try {
       await OrdersApi.update(id, { estado });
-
-      // Refresca instantáneamente
-      await refetch();
+      await refetch(); // 🔥 refresco inmediato
     } catch (error) {
       console.error("Error actualizando pedido:", error);
     }
   };
 
-  if (isLoading) return <p>Cargando...</p>;
+  if (isLoading) return <p className="p-6">Cargando...</p>;
 
-  // 🔥 CARD PEDIDO
+  // =========================
+  // CARD PEDIDO
+  // =========================
   const renderPedido = (order) => (
-    <div key={order.id} className="bg-white border shadow p-3 rounded mb-3">
-      <p className="font-bold">#{order.numero_orden}</p>
+    <div
+      key={order.id}
+      className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 hover:shadow-md transition"
+    >
+      <p className="font-bold text-gray-800">
+        #{order.numero_orden}
+      </p>
 
-      <p>Total: Bs {order.total}</p>
+      <p className="text-gray-700 mt-1">
+        Total: <span className="font-semibold">Bs {order.total}</span>
+      </p>
 
-      <p className="text-sm text-gray-600">Cliente: {order.cliente}</p>
+      <p className="text-sm text-gray-500 mt-1">
+        Cliente: {order.cliente}
+      </p>
 
-      {/* BOTONES DINÁMICOS */}
-      <div className="flex flex-col gap-1 mt-2">
+      {/* BOTONES */}
+      <div className="flex flex-col gap-2 mt-3">
         {order.estado === "LISTO" && (
           <button
             onClick={() => cambiarEstado(order.id, "EN_CAMINO")}
-            className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-xl transition"
           >
             Tomar pedido
           </button>
@@ -48,7 +60,7 @@ function RepartidorOrderDetail() {
         {order.estado === "EN_CAMINO" && (
           <button
             onClick={() => cambiarEstado(order.id, "ENTREGADO")}
-            className="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl transition"
           >
             Marcar entregado
           </button>
@@ -57,36 +69,43 @@ function RepartidorOrderDetail() {
     </div>
   );
 
-  // 🔥 FILTROS
+  // =========================
+  // FILTROS SEGURIZADOS
+  // =========================
   const disponibles = orders?.filter((o) => o.estado === "LISTO") || [];
-
   const enCamino = orders?.filter((o) => o.estado === "EN_CAMINO") || [];
-
   const entregados = orders?.filter((o) => o.estado === "ENTREGADO") || [];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50">
+
+      <Navbar />
+
+      <main className="max-w-7xl mx-auto px-4 py-6">
+
         {/* HEADER */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-700 to-emerald-500 bg-clip-text text-transparent">
-            🛵 Panel del Repartidor
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Panel del Repartidor
           </h1>
 
-          <p className="text-gray-500 mt-2">Gestiona entregas en tiempo real</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Gestiona entregas y pedidos en tiempo real
+          </p>
         </div>
 
         {/* COLUMNAS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
           {/* LISTOS */}
-          <div className="bg-white rounded-3xl shadow-xl border border-blue-100 overflow-hidden">
-            <div className="bg-linear-to-r from-blue-500 to-blue-700 p-4">
-              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
-                📦 LISTOS
+          <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+            <div className="bg-blue-600 px-4 py-3">
+              <h2 className="text-white font-semibold text-center">
+                LISTOS PARA RECOGER
               </h2>
             </div>
 
-            <div className="p-4 space-y-4 min-h-[500px] bg-blue-50/40">
+            <div className="p-4 space-y-4 min-h-[500px] bg-gray-50">
               {disponibles.length > 0 ? (
                 disponibles.map(renderPedido)
               ) : (
@@ -96,14 +115,14 @@ function RepartidorOrderDetail() {
           </div>
 
           {/* EN CAMINO */}
-          <div className="bg-white rounded-3xl shadow-xl border border-yellow-100 overflow-hidden">
-            <div className="bg-linear-to-r from-yellow-400 to-yellow-500 p-4">
-              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
-                🚚 EN CAMINO
+          <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+            <div className="bg-yellow-500 px-4 py-3">
+              <h2 className="text-white font-semibold text-center">
+                EN CAMINO
               </h2>
             </div>
 
-            <div className="p-4 space-y-4 min-h-[500px] bg-yellow-50/40">
+            <div className="p-4 space-y-4 min-h-[500px] bg-gray-50">
               {enCamino.length > 0 ? (
                 enCamino.map(renderPedido)
               ) : (
@@ -113,14 +132,14 @@ function RepartidorOrderDetail() {
           </div>
 
           {/* ENTREGADOS */}
-          <div className="bg-white rounded-3xl shadow-xl border border-emerald-100 overflow-hidden">
-            <div className="bg-linear-to-r from-emerald-500 to-green-600 p-4">
-              <h2 className="font-extrabold text-white text-xl text-center tracking-wide">
-                ✅ ENTREGADOS
+          <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+            <div className="bg-emerald-500 px-4 py-3">
+              <h2 className="text-white font-semibold text-center">
+                ENTREGADOS
               </h2>
             </div>
 
-            <div className="p-4 space-y-4 min-h-[500px] bg-emerald-50/40">
+            <div className="p-4 space-y-4 min-h-[500px] bg-gray-50">
               {entregados.length > 0 ? (
                 entregados.map(renderPedido)
               ) : (
@@ -128,8 +147,9 @@ function RepartidorOrderDetail() {
               )}
             </div>
           </div>
+
         </div>
-      </div>
+      </main>
     </div>
   );
 }
