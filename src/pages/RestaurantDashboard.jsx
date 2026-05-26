@@ -2,9 +2,20 @@ import { useOrders } from "../hooks/useEntities";
 import OrderCard from "../components/OrderCard";
 
 function RestaurantePanel() {
-  const { data: orders, isLoading } = useOrders();
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useOrders({
+    // 🔥 actualización automática
+    refetchInterval: 3000,
+    refetchIntervalInBackground: true,
+  });
 
-  if (isLoading) return <p>Cargando pedidos...</p>;
+  // 🔥 loading
+  if (isLoading) {
+    return <p>Cargando pedidos...</p>;
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
@@ -22,14 +33,22 @@ function RestaurantePanel() {
 
         {/* PEDIDOS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {orders?.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white rounded-3xl shadow-xl border border-gray-100 p-4 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-            >
-              <OrderCard order={order} />
+          {orders?.length > 0 ? (
+            orders.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white rounded-3xl shadow-xl border border-gray-100 p-4 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <OrderCard order={order} refetchOrders={refetch} />
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full bg-white rounded-3xl shadow-xl border border-gray-100 p-10 text-center">
+              <p className="text-gray-400 text-lg">
+                No existen pedidos registrados
+              </p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

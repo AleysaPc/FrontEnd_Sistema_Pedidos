@@ -26,7 +26,7 @@ function Navbar() {
           </div>
 
           {noLeidas > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold min-w-[24px] h-6 px-2 rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-pulse">
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold min-w-6 h-6 px-2 rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-pulse">
               {noLeidas}
             </span>
           )}
