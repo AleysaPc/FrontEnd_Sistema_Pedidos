@@ -2,32 +2,44 @@ import { useOrders } from "../hooks/useEntities";
 import { OrdersApi } from "../api/order";
 
 function OrderDetailRestaurant() {
-  const { data: orders, isLoading } = useOrders({
-    refetchInterval: 3000, // 🔥 polling cada 3 segundos
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useOrders({
+    refetchInterval: 3000,
     refetchIntervalInBackground: true,
   });
 
+  // 🔥 ACTUALIZA Y REFRESCA AUTOMÁTICAMENTE
   const cambiarEstado = async (id, estado) => {
-    await OrdersApi.update(id, { estado });
+    try {
+      await OrdersApi.update(id, { estado });
+
+      // Refresca inmediatamente
+      await refetch();
+    } catch (error) {
+      console.error("Error actualizando pedido:", error);
+    }
   };
 
   if (isLoading) return <p>Cargando...</p>;
 
+  // 🔥 FUNCIÓN PARA RENDERIZAR CADA CARD
   const renderPedido = (order) => (
-    <div className="bg-white border shadow p-3 rounded mb-3">
+    <div key={order.id} className="bg-white border shadow p-3 rounded mb-3">
       <p className="font-bold">#{order.numero_orden}</p>
+
       <p>Total: Bs {order.total}</p>
 
-      <p className="text-sm text-gray-600">
-        Cliente: {order.cliente}
-      </p>
+      <p className="text-sm text-gray-600">Cliente: {order.cliente}</p>
 
       {/* BOTONES DINÁMICOS */}
       <div className="flex flex-col gap-1 mt-2">
         {order.estado === "PENDIENTE" && (
           <button
             onClick={() => cambiarEstado(order.id, "ACEPTADO")}
-            className="bg-blue-500 text-white px-2 py-1 rounded"
+            className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition"
           >
             Aceptar
           </button>
@@ -36,7 +48,7 @@ function OrderDetailRestaurant() {
         {order.estado === "ACEPTADO" && (
           <button
             onClick={() => cambiarEstado(order.id, "PREPARANDO")}
-            className="bg-yellow-500 text-white px-2 py-1 rounded"
+            className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition"
           >
             Preparar
           </button>
@@ -45,7 +57,7 @@ function OrderDetailRestaurant() {
         {order.estado === "PREPARANDO" && (
           <button
             onClick={() => cambiarEstado(order.id, "LISTO")}
-            className="bg-green-500 text-white px-2 py-1 rounded"
+            className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition"
           >
             Marcar listo
           </button>
@@ -54,10 +66,14 @@ function OrderDetailRestaurant() {
     </div>
   );
 
-  const pendientes = orders?.filter((o) => o.estado === "PENDIENTE");
-  const aceptados = orders?.filter((o) => o.estado === "ACEPTADO");
-  const preparando = orders?.filter((o) => o.estado === "PREPARANDO");
-  const listos = orders?.filter((o) => o.estado === "LISTO");
+  // 🔥 FILTROS
+  const pendientes = orders?.filter((o) => o.estado === "PENDIENTE") || [];
+
+  const aceptados = orders?.filter((o) => o.estado === "ACEPTADO") || [];
+
+  const preparando = orders?.filter((o) => o.estado === "PREPARANDO") || [];
+
+  const listos = orders?.filter((o) => o.estado === "LISTO") || [];
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-emerald-50 p-6">
@@ -84,7 +100,11 @@ function OrderDetailRestaurant() {
             </div>
 
             <div className="p-4 space-y-4 min-h-[500px] bg-red-50/40">
-              {pendientes?.map(renderPedido)}
+              {pendientes.length > 0 ? (
+                pendientes.map(renderPedido)
+              ) : (
+                <p className="text-center text-gray-400">Sin pedidos</p>
+              )}
             </div>
           </div>
 
@@ -97,7 +117,11 @@ function OrderDetailRestaurant() {
             </div>
 
             <div className="p-4 space-y-4 min-h-[500px] bg-blue-50/40">
-              {aceptados?.map(renderPedido)}
+              {aceptados.length > 0 ? (
+                aceptados.map(renderPedido)
+              ) : (
+                <p className="text-center text-gray-400">Sin pedidos</p>
+              )}
             </div>
           </div>
 
@@ -110,7 +134,11 @@ function OrderDetailRestaurant() {
             </div>
 
             <div className="p-4 space-y-4 min-h-[500px] bg-yellow-50/40">
-              {preparando?.map(renderPedido)}
+              {preparando.length > 0 ? (
+                preparando.map(renderPedido)
+              ) : (
+                <p className="text-center text-gray-400">Sin pedidos</p>
+              )}
             </div>
           </div>
 
@@ -123,7 +151,11 @@ function OrderDetailRestaurant() {
             </div>
 
             <div className="p-4 space-y-4 min-h-[500px] bg-emerald-50/40">
-              {listos?.map(renderPedido)}
+              {listos.length > 0 ? (
+                listos.map(renderPedido)
+              ) : (
+                <p className="text-center text-gray-400">Sin pedidos</p>
+              )}
             </div>
           </div>
         </div>
