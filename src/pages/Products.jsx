@@ -87,7 +87,7 @@ function Productos() {
             to="/carrito"
             className="relative w-12 h-12 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-sm transition-all"
           >
-            🛒
+            REALIZAR PEDIDO 🛒
             <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
               {carrito.reduce((a, i) => a + i.cantidad, 0)}
             </span>
