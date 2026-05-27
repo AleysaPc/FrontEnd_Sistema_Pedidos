@@ -13,7 +13,9 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Productos />} />
+
+        <Route path="/login" element={<Login />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
 
