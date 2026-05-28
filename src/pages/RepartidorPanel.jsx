@@ -30,6 +30,7 @@ function RepartidorPanel() {
     try {
       await OrdersApi.update(order.id, {
         estado: "EN_CAMINO",
+        repartidor: user.id,
       });
 
       await refetch(); // refresco inmediato
@@ -45,11 +46,9 @@ function RepartidorPanel() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       <Navbar />
 
       <main className="max-w-5xl mx-auto px-4 py-6">
-
         {/* HEADER */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
@@ -63,16 +62,13 @@ function RepartidorPanel() {
 
         {/* LISTA */}
         <div className="space-y-5">
-
           {orders?.length > 0 ? (
             orders.map((order) => (
               <div
                 key={order.id}
                 className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all"
               >
-
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-
                   {/* INFO */}
                   <div>
                     <h2 className="text-xl font-bold text-gray-800">
@@ -95,20 +91,15 @@ function RepartidorPanel() {
                   >
                     Aceptar pedido
                   </button>
-
                 </div>
               </div>
             ))
           ) : (
             <div className="bg-white rounded-2xl border shadow-sm p-10 text-center">
-              <p className="text-gray-400">
-                No hay pedidos disponibles
-              </p>
+              <p className="text-gray-400">No hay pedidos disponibles</p>
             </div>
           )}
-
         </div>
-
       </main>
     </div>
   );

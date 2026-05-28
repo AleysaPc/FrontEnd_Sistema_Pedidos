@@ -141,12 +141,12 @@ function Historial() {
           </div>
 
           {/* BOTÓN PDF */}
-            <Link
-              to="/productos"
-              className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-2xl font-medium shadow-md transition-all"
-            >
-              🏠 Volver
-            </Link>
+          <Link
+            to="/productos"
+            className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-2xl font-medium shadow-md transition-all"
+          >
+            🏠 Volver
+          </Link>
 
           <button
             onClick={generarPDF}
@@ -177,8 +177,25 @@ function Historial() {
                     </p>
 
                     <p className="text-sm text-gray-500 mt-1">
-                      {item.usuario_nombre}
+                      Usuario acción: {item.usuario_nombre}
                     </p>
+
+                    <div className="mt-3 text-sm text-gray-700 space-y-1">
+                      <p>
+                        👤 Cliente:{" "}
+                        {item.cliente?.nombre_completo ||
+                          item.cliente?.username}
+                      </p>
+
+                      <p>📞 Celular: {item.cliente?.telefono}</p>
+
+                      <p>📍 Dirección: {item.cliente?.direccion}</p>
+
+                      <p>
+                        🚚 Repartidor:{" "}
+                        {item.repartidor?.nombre_completo || "Sin asignar"}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-xl border border-gray-200 flex items-center gap-2">
