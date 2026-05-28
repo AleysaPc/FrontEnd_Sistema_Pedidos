@@ -28,8 +28,6 @@ function Login() {
 
       const res = await login(formData.email, formData.password);
 
-      console.log("LOGIN RESPONSE:", res);
-
       if (!res?.user) {
         throw new Error("Respuesta inválida del servidor");
       }
@@ -41,36 +39,35 @@ function Login() {
 
       if (rol === "CLIENT") {
         const redirectTo = location.state?.from || "/productos";
-
         navigate(redirectTo);
       }
+
       if (rol === "REPARTIDOR") navigate("/repartidor");
+
       if (rol === "ADMIN_RESTAURANT") navigate("/panelRestaurante");
     } catch (error) {
       console.log(error);
-      setError("Credenciales incorrectas");
+      setError("Correo o contraseña incorrectos");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-700 via-blue-600 to-emerald-500 px-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-blue-50 to-emerald-50 px-4">
+      <div className="w-full max-w-md bg-white shadow-2xl rounded-[32px] p-8 border border-gray-100">
         {/* HEADER */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/20 flex items-center justify-center text-white text-3xl shadow-lg">
-            🔐
+          <div className="w-24 h-24 mx-auto mb-5 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 flex items-center justify-center text-white text-4xl shadow-lg">
+            🍽
           </div>
 
-          <h2 className="text-3xl font-extrabold text-white">Bienvenido</h2>
+          <h2 className="text-4xl font-extrabold text-gray-800">Bienvenido</h2>
 
-          <p className="text-white/70 mt-2 text-sm">
-            Inicia sesión para continuar
-          </p>
+          <p className="text-gray-500 mt-3">Inicia sesión para continuar</p>
         </div>
 
         {/* ERROR */}
         {error && (
-          <div className="bg-red-500/20 border border-red-400 text-red-100 px-4 py-2 rounded-xl mb-4 text-sm">
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-2xl mb-5 text-sm text-center">
             {error}
           </div>
         )}
@@ -79,7 +76,7 @@ function Login() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* EMAIL */}
           <div>
-            <label className="block text-white text-sm mb-2">
+            <label className="block text-gray-700 font-medium mb-2">
               Correo electrónico
             </label>
 
@@ -88,33 +85,35 @@ function Login() {
               name="email"
               placeholder="correo@gmail.com"
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/20 text-white placeholder-white/50 outline-none focus:ring-2 focus:ring-emerald-300 transition-all"
+              className="w-full px-4 py-4 rounded-2xl border border-gray-200 bg-white text-gray-700 outline-none focus:ring-2 focus:ring-blue-400 transition-all shadow-sm"
             />
           </div>
 
           {/* PASSWORD */}
           <div>
-            <label className="block text-white text-sm mb-2">Contraseña</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Contraseña
+            </label>
 
             <input
               type="password"
               name="password"
               placeholder="********"
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl bg-white/20 border border-white/20 text-white placeholder-white/50 outline-none focus:ring-2 focus:ring-emerald-300 transition-all"
+              className="w-full px-4 py-4 rounded-2xl border border-gray-200 bg-white text-gray-700 outline-none focus:ring-2 focus:ring-emerald-400 transition-all shadow-sm"
             />
           </div>
 
           {/* BUTTON */}
-          <button className="w-full bg-emerald-400 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-emerald-900/30">
+          <button className="w-full bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-700 hover:to-emerald-600 text-white font-bold py-4 rounded-2xl transition-all duration-300 hover:scale-[1.02] shadow-xl">
             Ingresar
           </button>
         </form>
 
         {/* FOOTER */}
-        <p className="text-center text-white/60 text-sm mt-6">
-          © 2026 Sistema de Gestión
-        </p>
+        <div className="mt-8 text-center">
+          <p className="text-gray-400 text-sm">© 2026 Sistema de Gestión</p>
+        </div>
       </div>
     </div>
   );
