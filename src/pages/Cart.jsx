@@ -17,7 +17,13 @@ function Cart() {
       const user = JSON.parse(localStorage.getItem("user"));
 
       if (!user) {
-        alert("Usuario no autenticado");
+        alert("Debes iniciar sesión para continuar");
+
+        navigate("/login", {
+          state: {
+            from: "/carrito",
+          },
+        });
         return;
       }
 
@@ -48,14 +54,11 @@ function Cart() {
       alert("Pedido realizado con éxito");
 
       navigate(`/orderDetail/${ordenId}`);
-
     } catch (error) {
       console.log("ERROR COMPLETO:", error);
 
       const mensaje =
-        error?.detail ||
-        error?.message ||
-        "Error al crear la orden";
+        error?.detail || error?.message || "Error al crear la orden";
 
       alert(mensaje);
     }
@@ -66,7 +69,6 @@ function Cart() {
       <Navbar />
 
       <div className="max-w-5xl mx-auto p-6">
-
         {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-4xl font-extrabold bg-linear-to-r from-blue-700 to-emerald-500 bg-clip-text text-transparent">
@@ -100,9 +102,7 @@ function Cart() {
 
                   <p className="text-gray-600">
                     Cantidad:
-                    <span className="font-semibold ml-2">
-                      {item.cantidad}
-                    </span>
+                    <span className="font-semibold ml-2">{item.cantidad}</span>
                   </p>
 
                   <p className="font-bold text-emerald-600 text-lg mt-2">
@@ -125,11 +125,8 @@ function Cart() {
         {/* TOTAL */}
         <div className="mt-10 bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-
             <div>
-              <h2 className="text-3xl font-extrabold text-gray-800">
-                Total:
-              </h2>
+              <h2 className="text-3xl font-extrabold text-gray-800">Total:</h2>
 
               <p className="text-4xl font-black text-emerald-600 mt-2">
                 Bs. {total.toFixed(2)}
@@ -142,10 +139,8 @@ function Cart() {
             >
               Realizar Pedido
             </button>
-
           </div>
         </div>
-
       </div>
     </div>
   );

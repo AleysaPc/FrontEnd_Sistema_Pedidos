@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/auth.service";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -38,10 +40,13 @@ function Login() {
 
       const rol = res.user.rol;
 
-      if (rol === "CLIENT") navigate("/productos");
+      if (rol === "CLIENT") {
+        const redirectTo = location.state?.from || "/productos";
+
+        navigate(redirectTo);
+      }
       if (rol === "REPARTIDOR") navigate("/repartidor");
       if (rol === "ADMIN_RESTAURANT") navigate("/panelRestaurante");
-
     } catch (error) {
       console.log(error);
       setError("Credenciales incorrectas");
@@ -50,24 +55,18 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-700 via-blue-600 to-emerald-500 px-4">
-
       <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-8">
-
         {/* HEADER */}
         <div className="text-center mb-8">
-
           <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/20 flex items-center justify-center text-white text-3xl shadow-lg">
             🔐
           </div>
 
-          <h2 className="text-3xl font-extrabold text-white">
-            Bienvenido
-          </h2>
+          <h2 className="text-3xl font-extrabold text-white">Bienvenido</h2>
 
           <p className="text-white/70 mt-2 text-sm">
             Inicia sesión para continuar
           </p>
-
         </div>
 
         {/* ERROR */}
@@ -79,7 +78,6 @@ function Login() {
 
         {/* FORM */}
         <form onSubmit={handleSubmit} className="space-y-5">
-
           {/* EMAIL */}
           <div>
             <label className="block text-white text-sm mb-2">
@@ -97,9 +95,7 @@ function Login() {
 
           {/* PASSWORD */}
           <div>
-            <label className="block text-white text-sm mb-2">
-              Contraseña
-            </label>
+            <label className="block text-white text-sm mb-2">Contraseña</label>
 
             <input
               type="password"
@@ -114,14 +110,12 @@ function Login() {
           <button className="w-full bg-emerald-400 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-emerald-900/30">
             Ingresar
           </button>
-
         </form>
 
         {/* FOOTER */}
         <p className="text-center text-white/60 text-sm mt-6">
           © 2026 Sistema de Gestión
         </p>
-
       </div>
     </div>
   );
