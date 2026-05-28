@@ -15,6 +15,22 @@ function Cart() {
       }
 
       const user = JSON.parse(localStorage.getItem("user"));
+      const token = localStorage.getItem("token");
+
+      console.log("USER:", user);
+      console.log("TOKEN:", token);
+
+      if (!user || !token) {
+        alert("Debes iniciar sesión para continuar");
+
+        navigate("/login", {
+          state: {
+            from: "/carrito",
+          },
+        });
+
+        return;
+      }
       console.log("USER:", user);
 
       if (!user) {
