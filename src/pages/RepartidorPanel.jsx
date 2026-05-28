@@ -30,7 +30,6 @@ function RepartidorPanel() {
     try {
       await OrdersApi.update(order.id, {
         estado: "EN_CAMINO",
-        repartidor: user.id,
       });
 
       await refetch(); // refresco inmediato
