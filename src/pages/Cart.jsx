@@ -2,6 +2,7 @@ import { useCart } from "../context/CartContext";
 import { OrdersApi, DetalleOrdersApi } from "../api/order";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Swal from "sweetalert2";
 
 function Cart() {
   const { carrito, eliminarProducto, limpiarCarrito, total } = useCart();
@@ -9,19 +10,30 @@ function Cart() {
 
   const crearOrden = async () => {
     try {
+      // 🛒 VALIDAR CARRITO
       if (!carrito.length) {
-        alert("El carrito está vacío");
+        await Swal.fire({
+          icon: "warning",
+          title: "Carrito vacío",
+          text: "Debes agregar productos antes de continuar.",
+          confirmButtonColor: "#f59e0b",
+        });
+
         return;
       }
 
       const user = JSON.parse(localStorage.getItem("user"));
       const token = localStorage.getItem("token");
 
-      console.log("USER:", user);
-      console.log("TOKEN:", token);
-
+      // 🔐 VALIDAR LOGIN
       if (!user || !token) {
-        alert("Debes iniciar sesión para continuar");
+        await Swal.fire({
+          icon: "info",
+          title: "Inicio de sesión requerido",
+          text: "Para continuar con tu pedido debes iniciar sesión o crear una cuenta.",
+          confirmButtonText: "Ir al Login",
+          confirmButtonColor: "#2563eb",
+        });
 
         navigate("/login", {
           state: {
@@ -29,23 +41,12 @@ function Cart() {
           },
         });
 
-        return;
-      }
-      console.log("USER:", user);
-
-      if (!user) {
-        alert("Debes iniciar sesión para continuar");
-
-        navigate("/login", {
-          state: {
-            from: "/carrito",
-          },
-        });
         return;
       }
 
       const restauranteId = carrito[0].restaurante;
 
+      // 📦 CREAR ORDEN
       const responseOrden = await OrdersApi.create({
         estado: "PENDIENTE",
         total: total,
@@ -57,6 +58,7 @@ function Cart() {
 
       const ordenId = responseOrden.id;
 
+      // 🧾 DETALLES
       for (const item of carrito) {
         await DetalleOrdersApi.create({
           orden: ordenId,
@@ -68,7 +70,13 @@ function Cart() {
 
       limpiarCarrito();
 
-      alert("Pedido realizado con éxito");
+      // ✅ ÉXITO
+      await Swal.fire({
+        icon: "success",
+        title: "Pedido realizado",
+        text: "Tu pedido fue registrado correctamente.",
+        confirmButtonColor: "#10b981",
+      });
 
       navigate(`/orderDetail/${ordenId}`);
     } catch (error) {
@@ -77,7 +85,12 @@ function Cart() {
       const mensaje =
         error?.detail || error?.message || "Error al crear la orden";
 
-      alert(mensaje);
+      await Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        text: mensaje,
+        confirmButtonColor: "#ef4444",
+      });
     }
   };
 
