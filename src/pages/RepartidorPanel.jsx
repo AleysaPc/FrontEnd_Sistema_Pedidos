@@ -53,7 +53,7 @@ function RepartidorPanel() {
         {/* HEADER */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
-            Pedidos Disponibles
+            Pedidos Disponibles...!
           </h1>
 
           <p className="text-sm text-gray-500 mt-1">
