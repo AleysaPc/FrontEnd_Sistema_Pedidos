@@ -37,7 +37,7 @@ function OrderDetailRestaurant() {
       <p className="font-bold text-gray-800">#{order.numero_orden}</p>
 
       <p className="text-sm text-gray-600 mt-1">
-        Cliente: <span className="font-medium">{order.cliente}</span>
+        Cliente: <span className="font-medium">{order.cliente?.nombre_completo || order.cliente?.username}</span>
       </p>
 
       <p className="text-sm text-gray-600">
