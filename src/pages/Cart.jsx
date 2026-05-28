@@ -15,6 +15,7 @@ function Cart() {
       }
 
       const user = JSON.parse(localStorage.getItem("user"));
+      console.log("USER:", user);
 
       if (!user) {
         alert("Debes iniciar sesión para continuar");
