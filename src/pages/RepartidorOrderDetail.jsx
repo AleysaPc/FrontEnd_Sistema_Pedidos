@@ -44,6 +44,10 @@ function RepartidorOrderDetail() {
 
       <p className="text-sm text-gray-500 mt-1">
         Cliente: {order.cliente?.nombre_completo || order.cliente?.username}
+        <br />
+        Celular: {order.cliente?.telefono}
+        <br />
+        Dirección: {order.cliente?.direccion}
       </p>
 
       {/* BOTONES */}
