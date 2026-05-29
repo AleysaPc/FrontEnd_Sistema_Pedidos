@@ -37,6 +37,14 @@ function Navbar() {
 
         {/* DERECHA */}
         <div className="flex items-center gap-3">
+          {/* VOLVER */}
+          <Link
+            to="/productos"
+            className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-2xl font-medium shadow-md transition-all"
+          >
+            🏠 Volver
+          </Link>
+
           {/* NOTIFICACIONES */}
           <div className="relative">
             <button className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-2xl transition-all">

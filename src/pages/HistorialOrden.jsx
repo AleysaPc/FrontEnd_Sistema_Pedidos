@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams} from "react-router-dom";
 import { HistorialOrdersApi } from "../api/order";
 import Navbar from "../components/Navbar";
 
@@ -141,13 +141,7 @@ function Historial() {
           </div>
 
           {/* BOTÓN PDF */}
-          <Link
-            to="/productos"
-            className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-3 rounded-2xl font-medium shadow-md transition-all"
-          >
-            🏠 Volver
-          </Link>
-
+          
           <button
             onClick={generarPDF}
             className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-2xl font-medium shadow-md transition-all"
@@ -191,10 +185,6 @@ function Historial() {
 
                       <p>📍 Dirección: {item.cliente?.direccion}</p>
 
-                      <p>
-                        🚚 Repartidor:{" "}
-                        {item.repartidor?.nombre_completo || "Sin asignar"}
-                      </p>
                     </div>
                   </div>
 
