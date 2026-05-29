@@ -1,14 +1,24 @@
 import { useCart } from "../context/CartContext";
 import { OrdersApi, DetalleOrdersApi } from "../api/order";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Swal from "sweetalert2";
 
 function Cart() {
   const { carrito, eliminarProducto, limpiarCarrito, total } = useCart();
+
   const navigate = useNavigate();
 
+  // 🔒 BLOQUEAR DOBLE CLICK
+  const [loading, setLoading] = useState(false);
+
   const crearOrden = async () => {
+    // 🚫 evita múltiples clicks
+    if (loading) return;
+
+    setLoading(true);
+
     try {
       // 🛒 VALIDAR CARRITO
       if (!carrito.length) {
@@ -91,6 +101,9 @@ function Cart() {
         text: mensaje,
         confirmButtonColor: "#ef4444",
       });
+    } finally {
+      // 🔓 volver a habilitar botón
+      setLoading(false);
     }
   };
 
@@ -165,9 +178,15 @@ function Cart() {
 
             <button
               onClick={crearOrden}
-              className="bg-linear-to-r from-blue-700 to-emerald-500 text-white px-8 py-4 rounded-2xl text-lg font-bold shadow-xl hover:scale-105 transition-all duration-300"
+              disabled={loading}
+              className={`px-8 py-4 rounded-2xl text-lg font-bold shadow-xl transition-all duration-300
+                ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed text-white"
+                    : "bg-linear-to-r from-blue-700 to-emerald-500 text-white hover:scale-105"
+                }`}
             >
-              Realizar Pedido
+              {loading ? "Procesando..." : "Realizar Pedido"}
             </button>
           </div>
         </div>

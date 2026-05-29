@@ -14,7 +14,15 @@ function OrderDetail() {
   const [showModal, setShowModal] = useState(false);
   const [metodoPago, setMetodoPago] = useState("");
 
+  // 🔒 prevenir doble click
+  const [loadingPago, setLoadingPago] = useState(false);
+
   const seleccionarMetodoPago = async (tipo) => {
+    // 🚫 evitar múltiples clicks
+    if (loadingPago) return;
+
+    setLoadingPago(true);
+
     try {
       // 💵 PAGO EN EFECTIVO
       if (tipo === "EFECTIVO") {
@@ -29,7 +37,11 @@ function OrderDetail() {
           cancelButtonColor: "#ef4444",
         });
 
-        if (!result.isConfirmed) return;
+        // ❌ canceló
+        if (!result.isConfirmed) {
+          setLoadingPago(false);
+          return;
+        }
 
         await OrdersApi.update(id, {
           metodo_pago: "EFECTIVO",
@@ -69,10 +81,17 @@ function OrderDetail() {
         text: "Ocurrió un problema al procesar el pago.",
         confirmButtonColor: "#ef4444",
       });
+    } finally {
+      setLoadingPago(false);
     }
   };
 
   const confirmarPagoQR = async () => {
+    // 🚫 evitar doble click
+    if (loadingPago) return;
+
+    setLoadingPago(true);
+
     try {
       await OrdersApi.update(id, {
         estado_pago: "PAGADO",
@@ -99,6 +118,8 @@ function OrderDetail() {
         text: "No se pudo confirmar el pago QR.",
         confirmButtonColor: "#ef4444",
       });
+    } finally {
+      setLoadingPago(false);
     }
   };
 
@@ -209,17 +230,19 @@ function OrderDetail() {
             {/* EFECTIVO */}
             <button
               onClick={() => seleccionarMetodoPago("EFECTIVO")}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-bold shadow-lg transition-all hover:scale-105"
+              disabled={loadingPago}
+              className="bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-bold shadow-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              💵 Efectivo
+              {loadingPago ? "Procesando..." : "💵 Efectivo"}
             </button>
 
             {/* QR */}
             <button
               onClick={() => seleccionarMetodoPago("QR")}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-lg transition-all hover:scale-105"
+              disabled={loadingPago}
+              className="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              📱 QR
+              {loadingPago ? "Procesando..." : "📱 QR"}
             </button>
           </div>
         </section>
@@ -249,14 +272,16 @@ function OrderDetail() {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={confirmarPagoQR}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-2xl font-bold transition-all"
+                  disabled={loadingPago}
+                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-2xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Confirmar
+                  {loadingPago ? "Procesando..." : "Confirmar"}
                 </button>
 
                 <button
                   onClick={() => setShowModal(false)}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-2xl font-bold transition-all"
+                  disabled={loadingPago}
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-2xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancelar
                 </button>
