@@ -171,7 +171,7 @@ function Historial() {
                     </p>
 
                     <p className="text-sm text-gray-500 mt-1">
-                      Número de pedido: {item.numero_orden}
+                      Número de pedido: {item.orden_numero}
                     </p>
 
                     <div className="mt-3 text-sm text-gray-700 space-y-1">
